@@ -315,6 +315,17 @@ extension ViewController  {
 			
 		}
 		
+        // Read in Apple Intrinsics, if required
+        if let conn = dataOutput.connection(with: .video) {
+            conn.preferredVideoStabilizationMode = .off
+            
+            if #available(iOS 11, *) {
+                if conn.isCameraIntrinsicMatrixDeliverySupported {
+                    conn.isCameraIntrinsicMatrixDeliveryEnabled = true
+                }
+            }
+        }
+        
 		avCaptureSession!.commitConfiguration()
 	}
 

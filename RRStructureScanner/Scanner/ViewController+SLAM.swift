@@ -49,7 +49,7 @@ extension ViewController {
         }
 
         // Initialize the scene.
-        _slamState.scene = STScene.init(context: _display!.context, freeGLTextureUnit: GLenum(GL_TEXTURE2))
+        _slamState.scene = STScene.init(context: _display!.context)
 		
         // Initialize the camera pose tracker.
 		let trackerOptions: [AnyHashable: Any] = [kSTTrackerTypeKey: STTrackerType.depthAndColorBased.rawValue, kSTTrackerTrackAgainstModelKey: true, kSTTrackerQualityKey: STTrackerQuality.accurate.rawValue, kSTTrackerBackgroundProcessingEnabledKey: true]
