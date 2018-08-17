@@ -456,7 +456,7 @@ class ViewController: UIViewController, STBackgroundTaskDelegate, MeshViewDelega
 	func enterScanningState() {
 
 		// This can happen if the UI did not get updated quickly enough.
-		if !_slamState.cameraPoseInitializer!.hasValidPose {
+		if !_slamState.cameraPoseInitializer!.lastOutput.hasValidPose.boolValue {
 			print("Warning: not accepting to enter into scanning state since the initial pose is not valid.")
 			return
 		}
@@ -469,7 +469,7 @@ class ViewController: UIViewController, STBackgroundTaskDelegate, MeshViewDelega
 		// Prepare the mapper for the new scan.
 		setupMapper()
 		
-		 _slamState.tracker!.initialCameraPose = _slamState.cameraPoseInitializer!.cameraPose
+		 _slamState.tracker!.initialCameraPose = _slamState.cameraPoseInitializer!.lastOutput.cameraPose
 
 		// We will lock exposure during scanning to ensure better coloring.
 		setColorCameraParametersForScanning()

@@ -49,7 +49,7 @@ extension ViewController {
         }
 
         // Initialize the scene.
-        _slamState.scene = STScene.init(context: _display!.context, freeGLTextureUnit: GLenum(GL_TEXTURE2))
+        _slamState.scene = STScene.init(context: _display!.context)
 		
         // Initialize the camera pose tracker.
 		let trackerOptions: [AnyHashable: Any] = [kSTTrackerTypeKey: STTrackerType.depthAndColorBased.rawValue, kSTTrackerTrackAgainstModelKey: true, kSTTrackerQualityKey: STTrackerQuality.accurate.rawValue, kSTTrackerBackgroundProcessingEnabledKey: true]
@@ -144,7 +144,7 @@ extension ViewController {
 			[kSTMapperLegacyKey : !_dynamicOptions.newMapperIsOn,
 			 kSTMapperVolumeResolutionKey : voxelSizeInMeters,
 			 kSTMapperVolumeBoundsKey: [volumeBounds.x, volumeBounds.y, volumeBounds.z],
-			 kSTMapperVolumeHasSupportPlaneKey: _slamState.cameraPoseInitializer!.hasSupportPlane,
+			 kSTMapperVolumeHasSupportPlaneKey: _slamState.cameraPoseInitializer!.lastOutput.hasSupportPlane.boolValue,
 			 kSTMapperEnableLiveWireFrameKey: false,
 			 ]
 
@@ -306,7 +306,7 @@ extension ViewController {
 				do {
 					try _slamState.cameraPoseInitializer?.updateCameraPose(withGravity: _lastGravity, depthFrame: depthFrame)
 					
-					_slamState.initialDepthCameraPose = GLKMatrix4Multiply((_slamState.cameraPoseInitializer?.cameraPose)!,
+					_slamState.initialDepthCameraPose = GLKMatrix4Multiply((_slamState.cameraPoseInitializer?.lastOutput.cameraPose)!,
 																		   depthCameraPoseInColorCoordinateFrame)
 					
 				} catch {
@@ -315,10 +315,10 @@ extension ViewController {
 			}
 			
 			// Tell the cube renderer whether there is a support plane or not.
-			_display!.cubeRenderer!.setCubeHasSupportPlane((_slamState.cameraPoseInitializer?.hasSupportPlane)!)
+			_display!.cubeRenderer!.setCubeHasSupportPlane((_slamState.cameraPoseInitializer?.lastOutput.hasSupportPlane.boolValue)!)
 			
 			// Enable the scan button if the pose initializer could estimate a pose.
-			self.scanButton.isEnabled = _slamState.cameraPoseInitializer!.hasValidPose
+			self.scanButton.isEnabled = _slamState.cameraPoseInitializer!.lastOutput.hasValidPose.boolValue
 			
 			if self.scanButton.isEnabled {
 				self.scanButton.isUserInteractionEnabled = true

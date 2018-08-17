@@ -320,7 +320,7 @@ open class MeshViewController: UIViewController, UIGestureRecognizerDelegate, MF
 		
 		mailViewController!.setSubject("3D Model")
 		
-		let messageBody = "This model was captured with the open source https://github.com/n6xej/RRStructureScanner\n\nFor information about building an app that uses the Structure Sensor go to https://ruthlessresearch.com";
+		let messageBody = "This model was captured with the open source https://github.com/n6xej/RRStructureScanner\n\nFor information about building an app that uses the Structure Sensor email Chris at cworley@ruthlessresearch.com";
 		
 		mailViewController?.setMessageBody(messageBody, isHTML: false)
 		

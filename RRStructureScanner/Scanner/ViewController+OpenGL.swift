@@ -182,9 +182,9 @@ extension ViewController {
 
 			// Make sure the viewpoint is always to color camera one, even if not using registered depth.
 			
-			if _slamState.cameraPoseInitializer!.hasValidPose {
+			if _slamState.cameraPoseInitializer!.lastOutput.hasValidPose.boolValue {
 				var alpha: Float
-				let depthCameraPose: GLKMatrix4 = _slamState.cameraPoseInitializer!.cameraPose
+				let depthCameraPose: GLKMatrix4 = _slamState.cameraPoseInitializer!.lastOutput.cameraPose
 				var cameraViewpoint: GLKMatrix4 = GLKMatrix4Identity
 				
 				if _useColorCamera {

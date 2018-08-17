@@ -314,7 +314,21 @@ extension ViewController  {
 		} catch {
 			
 		}
-		
+
+		let conn : AVCaptureConnection = dataOutput.connection(with: .video)!
+		if conn.isVideoStabilizationSupported {
+			conn.preferredVideoStabilizationMode =  .standard
+		}
+		else {
+			conn.preferredVideoStabilizationMode =  .off
+		}
+
+		if #available(iOS 11.0, *) {
+			if conn.isCameraIntrinsicMatrixDeliverySupported {
+				conn.isCameraIntrinsicMatrixDeliveryEnabled = true
+			}
+		}
+
 		avCaptureSession!.commitConfiguration()
 	}
 
